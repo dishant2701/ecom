@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-EcommApplication<Ecomm>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.Ecomm.Ecomm.EcommApplication",
+      "projectName": "Ecomm",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
