@@ -1,0 +1,82 @@
+.header {
+  // position: fixed;
+  border-bottom: 4px solid #c9e9f0;
+  color: white;
+  top: 0;
+  height: 56px;
+  width: 100%;
+  background-color: #05395c !important;
+  z-index: 10;
+  padding-block: 0.5rem;
+}
+.header_content {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.toggle_icon {
+  cursor: pointer;
+}
+.logo {
+  cursor: pointer;
+  margin-left: 50px;
+  max-width: 10rem;
+}
+.userrr {
+  border: 1px solid rgb(33, 150, 243);
+  margin-left: 5px;
+  border-radius: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.header_switch {
+  display: flex;
+}
+
+@media screen and (max-width: 730px) {
+  .Header_Title {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .Header_Title {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .header {
+    img {
+      width: 5rem;
+    }
+  }
+  .logo {
+    cursor: pointer;
+    margin-left: 50px;
+    height: 40px;
+  }
+}
+
+@media screen and (min-width: 615px) {
+  .menuIcon {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 615px) {
+  .Header_Profile {
+    display: none;
+  }
+  .header_switch {
+    display: none;
+  }
+  .logo {
+    cursor: pointer;
+    margin-left: 50px;
+    height: 40px;
+  }
+}

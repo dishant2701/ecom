@@ -1,6 +1,8 @@
 package com.Ecomm.Ecomm.models;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -26,7 +28,9 @@ public class User {
     private String otp;
     private Integer otpCount;
     private Long otpTimestamp;
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role_mapping", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
     @JsonIgnore
     public Long jwtTimestamp;
 
@@ -111,6 +115,19 @@ public class User {
 
     public void setOtpTimestamp(Long otpTimestamp) {
         this.otpTimestamp = otpTimestamp;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
 }
