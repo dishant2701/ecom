@@ -46,7 +46,7 @@ const useGlobalStoreBase = create<GlobalState>()(
       activeTab: "1",
       setActiveTab: (activeTab: string | null) => set({ activeTab }),
 
-      selectedHeader: " Young Professional Law(EPFO)",
+      selectedHeader: "",
       setSelectedHeader: (selectedHeader: string | null) =>
         set({ selectedHeader }),
     }),

@@ -1,5 +1,7 @@
 package com.Ecomm.Ecomm.controllers;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,13 +50,11 @@ public class AuthControllers {
         var body = req.bodyAs(LoginRequest.class);
         String username = body.username();
         String password = body.password();
-        String captcha = body.captcha();
         String fp = body.fp();
 
         // userService.validateUsername(username);
         userService.validatePassword(password);
         User user = userService.authenticateUser(username, password);
-        userService.verifyCaptcha(captcha, user);
 
         if (((Role) user.getRoles().toArray()[0]).getRoleId() == body.roleId()) {
             String jwt = userService.generateJwt(user, fp);
@@ -81,6 +81,7 @@ public class AuthControllers {
         }
 
         User user = new User(username, encoder.encode(password));
+        user.setRoles(Set.of(new Role(body.roleId())));
         user.setName(name);
         user.setEmail(email);
 

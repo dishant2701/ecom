@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 type RegisterData = {
   name: string;
   username: string;
+  // roleId: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -86,6 +87,7 @@ const RagisterPage = () => {
       const { confirmPassword, ...json } = data;
       const response = await fetcher("/auth/register", "POST", {
         ...json,
+        roleId: 2,
       });
       if (response == "Registered!") {
         toast.success("User Registered successfully");

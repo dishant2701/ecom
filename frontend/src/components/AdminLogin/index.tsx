@@ -24,14 +24,15 @@ import { useRouter } from "next/router";
 type LoginDate = {
   username: string;
   password: string;
+  roleId: string;
 };
-const validayionSchema = Yup.object().shape({
+const validayionSchema: any = Yup.object().shape({
   username: Yup.string()
     .required("Please Enter Mobile Number")
     .matches(/^[0-9]{10}$/, "Mobile number must be 10 digits"),
   password: Yup.string().required("Please enter Password"),
 });
-const LoginPage = () => {
+const AdminLogin = () => {
   const router = useRouter();
   const {
     register,
@@ -40,6 +41,9 @@ const LoginPage = () => {
   } = useForm<LoginDate>({
     resolver: yupResolver(validayionSchema),
     mode: "onChange",
+    defaultValues: {
+      roleId: "1",
+    },
   });
 
   const onSubmit: SubmitHandler<LoginDate> = async (data) => {
@@ -47,13 +51,13 @@ const LoginPage = () => {
     try {
       const response = await fetcher("/auth/sign-in", "POST", {
         ...data,
-        roleId: 2,
         fp: getFingerprint(),
       });
+      console.log("first", response);
       if (response.token) {
         window.sessionStorage.setItem("token", response.token);
         toast.success("Login successful");
-        // router.push("/dashboard");
+        router.push("/admin-dashboard");
       } else {
         toast.error("Something went wrong");
       }
@@ -143,4 +147,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AdminLogin;

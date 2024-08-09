@@ -90,13 +90,17 @@ public class UserService implements UserDetailsService {
 
   public User authenticateUser(String username, String password)
       throws Exception {
+
     Authentication authentication = null;
     try {
+
       authentication = authenticationManager
           .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+
       SecurityContextHolder.getContext().setAuthentication(authentication);
       return userRepo.findFirstByUsername(username);
     } catch (Exception ex) {
+      ex.printStackTrace();
       throw new BadRequestException("Invalid username or password");
     }
   }

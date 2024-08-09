@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,7 +14,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "users")
 
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +34,9 @@ public class User {
     private Set<Role> roles = new HashSet<>();
     @JsonIgnore
     public Long jwtTimestamp;
+
+    public User() {
+    }
 
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
