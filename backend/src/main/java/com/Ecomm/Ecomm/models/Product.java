@@ -15,10 +15,10 @@ public class Product {
     Long groupId;
     String productName;
     String productDescription;
-    Number price;
+    Double price;
     String size;
     List<String> colors;
-    Number quantity;
+    Integer quantity;
     List<String> images;
 
     public Long getId() {
