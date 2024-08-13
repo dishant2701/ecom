@@ -236,7 +236,7 @@ public class OtpLimiter {
     try (Connection conn = ds.getConnection()) {
       conn.setAutoCommit(false);
       PreparedStatement stmt = conn.prepareStatement(
-          "SELECT * FROM users WHERE mobile = ? FOR UPDATE",
+          "SELECT * FROM users WHERE username = ? FOR UPDATE",
           ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
       stmt.setString(1, mobile);
       ResultSet results = stmt.executeQuery();

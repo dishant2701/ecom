@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Ecomm.Ecomm.exceptions.BadRequestException;
+import com.Ecomm.Ecomm.exceptions.NotFoundException;
 import com.Ecomm.Ecomm.models.Role;
 import com.Ecomm.Ecomm.models.User;
 import com.Ecomm.Ecomm.payloads.request.EncryptedRequest;
@@ -19,9 +20,11 @@ import com.Ecomm.Ecomm.payloads.response.EncryptedResponse;
 import com.Ecomm.Ecomm.payloads.response.LoginResponse;
 import com.Ecomm.Ecomm.repositories.UserRepo;
 import com.Ecomm.Ecomm.services.UserService;
+import com.Ecomm.Ecomm.utils.Json;
 import com.Ecomm.Ecomm.utils.OtpLimiter;
 import com.Ecomm.Ecomm.utils.SmsThread;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -88,4 +91,85 @@ public class AuthControllers {
         userRepo.save(user);
         return new EncryptedResponse("Registered!");
     }
+
+    @PostMapping("/reset-password/send-OTP")
+    public <json> EncryptedResponse resetPassword2fa(
+            @Valid @RequestBody EncryptedRequest req,
+            HttpServletResponse response) throws Exception {
+        boolean otpLimitExceeded = false;
+        LoginRequest loginRequest = Json.deserialize(LoginRequest.class, req.getData());
+        String username = loginRequest.username();
+
+        var user = userRepo.findFirstByUsername(username);
+
+        String otp = userService.generateOtp();
+        System.out.println("OTP" + otp);
+        String mobile = user.getUsername();
+        System.out.println("Mobile :" + mobile);
+        String message = "OTP Sent.";
+        if (otpLimiter.shouldForgotPasswordOtp(mobile, otp)) {
+            smsThread.send(otp, mobile);
+        } else {
+            otpLimitExceeded = true;
+        }
+
+        if (otpLimitExceeded) {
+            message = "OTP limit exceeded. Please use most recent OTP until 24 hours.";
+        }
+        return new EncryptedResponse(message);
+    }
+
+    @PostMapping("/reset-password/verify-OTP")
+    public <json> EncryptedResponse resetPasswordOtp(
+            @Valid @RequestBody EncryptedRequest req,
+            HttpServletResponse response) throws Exception {
+
+        LoginRequest loginRequest = Json.deserialize(LoginRequest.class, req.getData());
+        String username = loginRequest.username();
+        String otp = loginRequest.forgotOtp();
+
+        // userService.validateUsername(username);
+        var user = userRepo.findFirstByUsername(username);
+        if (user == null) {
+            throw new NotFoundException("User does not exist.");
+        }
+        // System.out.println("otp" + otp);
+        userService.verifyForgotOtp(otp, user);
+
+        return new EncryptedResponse("verified");
+    }
+
+    @PostMapping("/reset-password")
+    public <json> EncryptedResponse resetPassword(
+            @Valid @RequestBody EncryptedRequest req,
+            HttpServletResponse response) throws Exception {
+
+        LoginRequest loginRequest = Json.deserialize(LoginRequest.class, req.getData());
+        String username = loginRequest.username();
+        String password = loginRequest.password();
+        String otp = loginRequest.forgotOtp();
+        // userService.validateUsername(username);
+        userService.validatePassword(password);
+
+        var user = userRepo.findFirstByUsername(username);
+        if (user == null) {
+            throw new NotFoundException("User does not exist.");
+        }
+        userService.verifyForgotOtp(otp, user);
+
+        user.setPassword(encoder.encode(password));
+
+        user.setJwtTimestamp(null);
+        user.setForgotOtp(null);
+        user.setForgotOtpCount(null);
+        user.setForgotOtpTimestamp(null);
+        try {
+            userRepo.save(user);
+            return new EncryptedResponse("Password successfully reset.");
+        } catch (Exception e) {
+            throw new Exception("something went wrong");
+        }
+
+    }
+
 }

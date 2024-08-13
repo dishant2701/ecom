@@ -207,6 +207,15 @@ public class UserService implements UserDetailsService {
     }
   }
 
+  public void verifyForgotOtp(String otp, User user) throws Exception {
+    if (StringUtils.isBlank(otp) || !isValidRegex(otp, OTP_REGEX)) {
+      throw new BadRequestException("Invalid OTP");
+    }
+    if (!user.getForgotOtp().equals(otp)) {
+      throw new BadRequestException("Incorrect OTP");
+    }
+  }
+
   public String createRegisterCapcha(int capchaLength) {
     String captcha = activeProfile.equals("dev") ? "capcha" : generateCaptcha(capchaLength);
     return captcha;

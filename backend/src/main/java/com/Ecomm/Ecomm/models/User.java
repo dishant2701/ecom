@@ -35,6 +35,12 @@ public class User implements UserDetails {
     @JsonIgnore
     public Long jwtTimestamp;
 
+    private String forgotOtp;
+
+    private Integer forgotOtpCount;
+
+    private Long forgotOtpTimestamp;
+
     public User() {
     }
 
@@ -127,6 +133,30 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getForgotOtp() {
+        return forgotOtp;
+    }
+
+    public void setForgotOtp(String forgotOtp) {
+        this.forgotOtp = forgotOtp;
+    }
+
+    public Integer getForgotOtpCount() {
+        return forgotOtpCount;
+    }
+
+    public void setForgotOtpCount(Integer forgotOtpCount) {
+        this.forgotOtpCount = forgotOtpCount;
+    }
+
+    public Long getForgotOtpTimestamp() {
+        return forgotOtpTimestamp;
+    }
+
+    public void setForgotOtpTimestamp(Long forgotOtpTimestamp) {
+        this.forgotOtpTimestamp = forgotOtpTimestamp;
     }
 
     public User(String username, String password) {
