@@ -19,8 +19,9 @@ const PUBLIC_ROUTES = new Set([
   "/register",
   "/admin-login",
   "/super-admin-login",
+  "/dashboard",
 ]);
-const DEFAULT_PUBLIC_ROUTE = "/login";
+const DEFAULT_PUBLIC_ROUTE = "/dashboard";
 
 const isProtectedRoute = (route: string) => !PUBLIC_ROUTES.has(route);
 
