@@ -1,32 +1,35 @@
-import React from "react";
-import scss from "./homeheader.module.scss";
-import { Button } from "@mantine/core";
 import Switch from "@/components/Switch/Switch";
+import { clsx } from "@/utils/string";
+import { Title, useMantineColorScheme } from "@mantine/core";
+import React from "react";
+import { PiTShirtFill } from "react-icons/pi";
+import scss from "./homeheader.module.scss";
 
-const HomeHeader = () => {
+function HomeHeader() {
+  const { colorScheme } = useMantineColorScheme();
+
   return (
     <>
-      <header>
-        <div className={scss.header}>
-          <div className={scss.maindiv}>
-            <div className={scss.image}>
-              <img
-                src="/EPFORecruitment/assets/images/epfo-logo.png"
-                alt="EPFO LOGO"
-              />
-            </div>
-            <div className={scss.heading}>
-              <h4> E-Comm</h4>
-            </div>
-          </div>
-
-          <div>
-            <Switch />
-          </div>
+      <header
+        className={clsx(scss.header, "px-3 py-2 ")}
+        style={{
+          backgroundColor: colorScheme == "light" ? "#F8F9FA" : "#2E2E2E",
+        }}
+      >
+        <Title
+          order={1}
+          display="flex"
+          className="items-center gap-1 tracking-wider font-normal cursor-pointer"
+        >
+          {<PiTShirtFill size={29} />}
+          Ecomm
+        </Title>
+        <div className="flex items-center ">
+          <Switch />
         </div>
       </header>
     </>
   );
-};
+}
 
 export default HomeHeader;

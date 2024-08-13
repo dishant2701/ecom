@@ -1,45 +1,20 @@
 .header {
-  position: relative;
-  border-bottom: calc(0.0625rem * var(--mantine-scale)) solid
-    var(--mantine-color-gray-2);
-  background-color: #c9e9f0;
-  display: flex;
-  color: black;
-  display: flex;
-  // gap: 25rem;
-  padding: 4px 0px;
-  // box-shadow: -1px -3px 10px 0px;
-  align-items: center;
-  .image {
-    display: flex;
-    gap: 1rem;
-    margin-left: 2rem;
-    .ministry_logo {
-      border-right: 1px solid black;
-      padding-right: 1rem;
-    }
-  }
-  h4 {
-    font-family: Sans;
-    line-height: 1.2;
-    font-weight: 550;
-    background-color: #0048a4;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  img {
-    padding: 2px;
-    height: 4rem;
-    width: auto;
-  }
-}
-.heading {
-  display: flex;
-  align-items: center;
-  gap: 35rem;
-}
-.maindiv{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  color: white;
+  height: 56px;
+  width: 100%;
+  z-index: 10;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+
+  h1 {
+    color: #0f7570;
+    background-image: -webkit-linear-gradient(0deg, #0f7570 20%, #6eb2f7 80%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
 }
